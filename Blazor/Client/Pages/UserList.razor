@@ -1,0 +1,50 @@
+﻿@page "/UserList"
+@using Blazor.Client.Services.UserService;
+@using Blazor.Shared;
+@inject IUserService UserService
+<h3>Users</h3>
+@if (users == null)
+{
+    <span>Loading your users...</span>
+}
+else if (users.Count <= 0)
+{
+    <span>You have no users, yet.</span>
+}
+else
+{
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>Created date</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in users )
+            {
+                <tr>
+                    <td>@item.DateCreated</td>
+                    <td>@item.FirstName</td>
+                    <td>@item.LastName</td>
+                </tr>
+            }
+        </tbody>
+       
+        <tr>
+
+        </tr>
+    </table>
+        
+}
+
+@code {
+    List<User> users = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        users = await UserService.GetUsers();
+    }
+   
+}
